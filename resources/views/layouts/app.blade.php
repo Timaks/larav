@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie edge">
     <title>@yield('title-block')</title>
     <!-- Styles-->
-<!--   <link href="{{ asset('css/app.css') }}" rel="stylesheet">-->
-     <link rel="stylesheet" href="/css/app.css">
+<!--   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+     <link rel="stylesheet" href="/css/app.css">-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 </head>
@@ -28,12 +28,18 @@
     </div>
 </div>
 <!-- Right Side Of Navbar -->
+@php
+    $lang_array = ['ru', 'en'];
+    $title = $locale == 'en' ? 'Site' : 'Сайт';
+    echo $title;
+//dd($locale);
+
+@endphp
+{{ trans('validation.active_url') }}
 <ul class="navbar-nav ml-auto">
-    @foreach (config('app.available_locales') as $locale)
+    @foreach ($lang_array as $locale)
         <li class="nav-item">
-            <a class="nav-link"
-               href="{{ route(\Illuminate\Support\Facades\Route::currentRouteName(), $locale) }}"
-               @if (app()->getLocale() == $locale) style="font-weight: bold; text-decoration: underline" @endif>{{ strtoupper($locale) }}</a>
+            <a class="nav-link" href="/language/{{ $locale }}">{{ strtoupper($locale) }}</a>
         </li>
     @endforeach
 @guest
@@ -62,9 +68,9 @@
         </div>
     </li>
 @endguest
+</ul>
 
 @include('inc.footer')
-
 <body>
 
 </body>

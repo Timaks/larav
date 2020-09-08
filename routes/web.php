@@ -15,26 +15,19 @@
 /*Route::get('/', function () {
     return view('welcome');
 });*/
-Route::group(['prefix' => '{locale}',
-'where' => ['locale' => '[a-zA-Z]{2}'],
-'middleware' => 'setlocale'],
-function() {
+
     Route::get('/', function () {
         return view('home');
     });
+
     Route::get('/language/{locale}', function ($lang) {
         $languages = ['ru', 'en'];
         if (in_array($lang, $languages)) {
             App::setLocale($lang);
             Session::put('locale', $lang);
         }
-        return redirect()->back();
+        return back();
     });
     Auth::routes();
 
     Route::get('/home', 'HomeController@index')->name('home');
-});
-
-Route::get('/', function () {
-    return redirect(app()->getLocale());
-});
